@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { dishFormReducer } from '../store/dishFormSlice/dishFormSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    dishForm: dishFormReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
