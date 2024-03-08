@@ -3,17 +3,26 @@ import { Modal } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { closeModal, selectModalShow } from '../../store/modalSlice/modalSlice';
 import {
+  clearCart,
   selectCart,
+  selectCartLoading,
   selectCartTotalPrice,
 } from '../../store/cartSlice/cartSlice';
 import CartItem from '../CartItem/CartItem';
 import { DELIVERY_PRICE } from '../../constants';
+import { addOrder } from '../../store/cartSlice/cartThunks';
 
 const ModalCheckout: React.FC = () => {
   const dispatch = useAppDispatch();
   const show = useAppSelector(selectModalShow);
   const cartItems = useAppSelector(selectCart);
   const totalCartPrice = useAppSelector(selectCartTotalPrice);
+  const isLoading = useAppSelector(selectCartLoading);
+
+  const handleAddOrder = async () => {
+    await dispatch(addOrder());
+    dispatch(clearCart());
+  };
 
   return (
     <Modal show={show} fullscreen onHide={() => dispatch(closeModal())}>
@@ -46,8 +55,25 @@ const ModalCheckout: React.FC = () => {
         </div>
         <div className='row justify-content-center mt-5'>
           <div className='col col-sm-8 col-md-6 col-lg-5 col-xxl-4'>
-            <button className='btn btn-outline-orange w-100 btn-lg'>
-              Order
+            <button
+              className='btn btn-outline-orange w-100 btn-lg'
+              onClick={handleAddOrder}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span
+                    className='spinner-border spinner-border-sm'
+                    aria-hidden='true'
+                  ></span>
+                  <span className='visually-hidden' role='status'>
+                    Loading...
+                  </span>
+                  Order
+                </>
+              ) : (
+                'Order'
+              )}
             </button>
           </div>
         </div>
@@ -56,6 +82,7 @@ const ModalCheckout: React.FC = () => {
             <button
               className='btn btn-outline-dark w-100 btn-lg'
               onClick={() => dispatch(closeModal())}
+              disabled={isLoading}
             >
               Cancel
             </button>

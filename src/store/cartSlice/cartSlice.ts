@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Dish } from '../../types';
+import { addOrder } from './cartThunks';
 
 interface CartDish {
   dish: Dish;
@@ -28,7 +29,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, { payload: dish }: PayloadAction<Dish>) => {
-      
       const foundIndex = state.items.findIndex(
         (item) => item.dish.id === dish.id
       );
@@ -62,12 +62,32 @@ const cartSlice = createSlice({
         return (acc += item.dish.price * item.count);
       }, 0);
     },
+    clearCart: (state) => {
+      state.items = [];
+      state.dishesCount = 0;
+      state.totalPrice = 0;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addOrder.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(addOrder.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addOrder.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
   },
 });
 
 export const cartReducer = cartSlice.reducer;
-export const { addToCart, deleteFromCart } = cartSlice.actions;
+export const { addToCart, deleteFromCart, clearCart } = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart.items;
 export const selectCartDishesCount = (state: RootState) =>
   state.cart.dishesCount;
 export const selectCartTotalPrice = (state: RootState) => state.cart.totalPrice;
+export const selectCartLoading = (state: RootState) => state.cart.loading;
