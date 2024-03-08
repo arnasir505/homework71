@@ -1,13 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi';
-import { RootState } from '../../app/store';
+import { DishForm } from '../../types';
 
-export const addDish = createAsyncThunk<void, undefined, { state: RootState }>(
+export const addDish = createAsyncThunk<void, DishForm>(
   'dishForm/addDish',
-  async (_arg, thunkApi) => {
+  async (dish) => {
     try {
-      const newDish = thunkApi.getState().dishForm.data;
-      await axiosApi.post('/dodo/dishes', newDish);
+      await axiosApi.post('/dodo/dishes.json', dish);
     } catch (error) {
       console.log(error);
     }

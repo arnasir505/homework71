@@ -1,5 +1,5 @@
 export interface DishForm {
   title: string;
-  price: number;
+  price: number | null;
   image: string;
 }

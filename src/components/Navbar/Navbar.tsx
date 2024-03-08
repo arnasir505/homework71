@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className='navbar orange shadow'>
+    <nav className='navbar orange shadow-sm'>
       <div className='container'>
         <Link className='navbar-brand text-white' to='/admin/dishes'>
           Dodo Pizza Admin

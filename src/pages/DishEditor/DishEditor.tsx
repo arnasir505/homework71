@@ -1,32 +1,29 @@
-import React, { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
-import { updateForm } from '../../store/dishFormSlice/dishFormSlice';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  clearForm,
+  selectDishForm,
+  selectDishFormLoading,
+  updateImage,
+  updatePrice,
+  updateTitle,
+} from '../../store/dishFormSlice/dishFormSlice';
+import { addDish } from '../../store/dishFormSlice/dishFormThunks';
+import { useNavigate } from 'react-router-dom';
 
 const DishEditor: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const dishForm = useAppSelector(selectDishForm);
+  const isLoading = useAppSelector(selectDishFormLoading);
 
-  const [form, setForm] = useState({
-    title: '',
-    price: '',
-    image: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(
-      updateForm({
-        ...form,
-        price: Number(form.price),
-      })
-    );
+    await dispatch(addDish(dishForm));
+    dispatch(clearForm());
+    navigate('/admin/dishes');
   };
+
   return (
     <div className='container'>
       <div className='row'>
@@ -45,8 +42,8 @@ const DishEditor: React.FC = () => {
                 placeholder='Pepperoni'
                 required
                 autoComplete='on'
-                value={form.title}
-                onChange={(e) => handleChange(e)}
+                value={dishForm.title}
+                onChange={(e) => dispatch(updateTitle(e.target.value))}
               />
             </div>
             <div className='mb-3'>
@@ -61,8 +58,8 @@ const DishEditor: React.FC = () => {
                 placeholder='320'
                 required
                 autoComplete='on'
-                value={form.price}
-                onChange={(e) => handleChange(e)}
+                value={dishForm.price || ''}
+                onChange={(e) => dispatch(updatePrice(e.target.value))}
               />
             </div>
             <div className='mb-3'>
@@ -77,12 +74,29 @@ const DishEditor: React.FC = () => {
                 placeholder='https://images.com/photos/123456/pepperoni.jpeg'
                 required
                 autoComplete='on'
-                value={form.image}
-                onChange={(e) => handleChange(e)}
+                value={dishForm.image}
+                onChange={(e) => dispatch(updateImage(e.target.value))}
               />
             </div>
-            <button type='submit' className='btn btn-outline-dark'>
-              Add
+            <button
+              className='btn btn-outline-dark'
+              type='submit'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span
+                    className='spinner-border spinner-border-sm'
+                    aria-hidden='true'
+                  ></span>
+                  <span className='visually-hidden' role='status'>
+                    Loading...
+                  </span>
+                  Add
+                </>
+              ) : (
+                'Add'
+              )}
             </button>
           </form>
         </div>
