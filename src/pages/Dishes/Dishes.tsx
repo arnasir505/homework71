@@ -23,7 +23,7 @@ const Dishes: React.FC = () => {
   }, [getDishes]);
 
   let content = (
-    <div className='col-12'>
+    <div className='position-absolute top-0 start-50 translate-middle'>
       <Spinner />
     </div>
   );
@@ -49,10 +49,10 @@ const Dishes: React.FC = () => {
   }
   return (
     <div className='container py-5'>
-      <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-2'>
+      <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-2 position-relative'>
         {content}
       </div>
-      <BottomCart />
+      {!isLoading && <BottomCart />}
     </div>
   );
 };
