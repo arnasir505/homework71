@@ -45,3 +45,4 @@ const dishesSlice = createSlice({
 
 export const dishesReducer = dishesSlice.reducer;
 export const selectDishes = (state: RootState) => state.dishes.items;
+export const selectDishesLoading = (state: RootState) => state.dishes.loading;

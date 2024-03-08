@@ -10,3 +10,8 @@ body {
 .active {
   text-decoration: underline;
 }
+
+.dish-image {
+  max-height: 120px;
+  max-width: 120px;
+}
