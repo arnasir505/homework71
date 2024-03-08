@@ -14,6 +14,7 @@ import {
   updateDish,
 } from '../../store/dishFormSlice/dishFormThunks';
 import { useNavigate, useParams } from 'react-router-dom';
+import dishPlaceholder from '../../assets/dishPlaceholder.svg';
 
 const DishEditor: React.FC = () => {
   const params = useParams();
@@ -106,7 +107,7 @@ const DishEditor: React.FC = () => {
             <div className='mb-4'>
               <p>Image preview:</p>
               <img
-                src={dishForm.image || 'https://fakeimg.pl/120x120?font=bebas'}
+                src={dishForm.image || dishPlaceholder}
                 alt='preview'
                 className='dish-image'
               />

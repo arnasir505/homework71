@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { deleteDish, fetchDishes } from '../../store/dishesSlice/dishesThunks';
 import { selectDishesDeleteId } from '../../store/dishesSlice/dishesSlice';
 
-const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
+const AdminDishItem: React.FC<Dish> = ({ id, title, price, image }) => {
   const dispatch = useAppDispatch();
   const deleteId = useAppSelector(selectDishesDeleteId);
   const disabled = deleteId === id;
@@ -59,4 +59,4 @@ const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
   );
 };
 
-export default DishItem;
+export default AdminDishItem;

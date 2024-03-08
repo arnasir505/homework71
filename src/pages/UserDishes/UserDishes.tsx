@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import Spinner from '../../components/Spinner/Spinner';
 import {
   selectDishes,
   selectDishesLoading,
 } from '../../store/dishesSlice/dishesSlice';
-import DishItem from '../../components/AdminDishItem/AdminDishItem';
 import { fetchDishes } from '../../store/dishesSlice/dishesThunks';
-import Spinner from '../../components/Spinner/Spinner';
+import UserDishItem from '../../components/UserDishItem/UserDishItem';
 
-const AdminDishes: React.FC = () => {
+const UserDishes: React.FC = () => {
   const dispatch = useAppDispatch();
   const dishes = useAppSelector(selectDishes);
   const isLoading = useAppSelector(selectDishesLoading);
@@ -28,7 +27,7 @@ const AdminDishes: React.FC = () => {
     content = (
       <>
         {dishes.map((dish) => (
-          <DishItem
+          <UserDishItem
             key={dish.id}
             id={dish.id}
             title={dish.title}
@@ -40,28 +39,16 @@ const AdminDishes: React.FC = () => {
     );
   } else if (dishes.length === 0 && !isLoading) {
     content = (
-      <h2 className='text-center pt-5 text-secondary'>
-        Dishes list is empty.
-        <br />
-        <Link to={'/admin/new-dish'}>Click here</Link> to add dish
-      </h2>
+      <h2 className='text-center pt-5 text-secondary'>Dishes list is empty.</h2>
     );
   }
   return (
-    <div className='container pt-4'>
-      <div className='d-flex justify-content-between align-items-center'>
-        <h1>Dishes</h1>
-        <Link to={'/admin/new-dish'} className='btn btn-outline-dark'>
-          Add new dish
-        </Link>
-      </div>
-      <div className='pt-4'>
-        <div className='row'>
-          <div className='col-lg-10 col-xl-8 col-xxl-7'>{content}</div>
-        </div>
+    <div className='container py-5'>
+      <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4'>
+        {content}
       </div>
     </div>
   );
 };
 
-export default AdminDishes;
+export default UserDishes;

@@ -15,3 +15,16 @@ body {
   max-height: 120px;
   max-width: 120px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.dishCard:hover {
+  border-color: #ff6900;
+}
+
+.dishCard:active {
+  transform: scale(0.98);
+  transition: all 0.1s;
+}
