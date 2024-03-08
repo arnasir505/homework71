@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const AdminOrders: React.FC = () => {
-  return (
-    <div className='container'>AdminOrders</div>
-  )
-}
+  return <div className='container'>AdminOrders</div>;
+};
 
-export default AdminOrders
+export default AdminOrders;
