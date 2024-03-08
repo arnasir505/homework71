@@ -28,3 +28,19 @@ body {
   transform: scale(0.98);
   transition: all 0.1s;
 }
+
+.bottom-cart {
+  border-top: 2px solid #ff6900;
+}
+
+.btn-outline-orange {
+  --bs-btn-color: #ff6900;
+  --bs-btn-border-color: #ff6900;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #ff6900;
+  --bs-btn-hover-border-color: #ff6900;
+  --bs-btn-focus-shadow-rgb: 33, 37, 41;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #ff6900;
+  --bs-btn-active-border-color: #ff6900;
+}

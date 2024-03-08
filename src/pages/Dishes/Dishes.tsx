@@ -6,9 +6,10 @@ import {
   selectDishesLoading,
 } from '../../store/dishesSlice/dishesSlice';
 import { fetchDishes } from '../../store/dishesSlice/dishesThunks';
-import UserDishItem from '../../components/UserDishItem/UserDishItem';
+import DishItem from '../../components/DishItem/DishItem';
+import BottomCart from '../../components/BottomCart/BottomCart';
 
-const UserDishes: React.FC = () => {
+const Dishes: React.FC = () => {
   const dispatch = useAppDispatch();
   const dishes = useAppSelector(selectDishes);
   const isLoading = useAppSelector(selectDishesLoading);
@@ -21,13 +22,17 @@ const UserDishes: React.FC = () => {
     getDishes();
   }, [getDishes]);
 
-  let content = <Spinner />;
+  let content = (
+    <div className='col-12'>
+      <Spinner />
+    </div>
+  );
 
   if (dishes.length > 0 && !isLoading) {
     content = (
       <>
         {dishes.map((dish) => (
-          <UserDishItem
+          <DishItem
             key={dish.id}
             id={dish.id}
             title={dish.title}
@@ -44,11 +49,12 @@ const UserDishes: React.FC = () => {
   }
   return (
     <div className='container py-5'>
-      <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4'>
+      <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-2'>
         {content}
       </div>
+      <BottomCart />
     </div>
   );
 };
 
-export default UserDishes;
+export default Dishes;
