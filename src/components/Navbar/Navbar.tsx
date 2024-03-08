@@ -5,7 +5,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className='navbar orange shadow'>
       <div className='container'>
-        <Link className='navbar-brand text-white' to='/admin'>
+        <Link className='navbar-brand text-white' to='/admin/dishes'>
           Dodo Pizza Admin
         </Link>
         <div className='d-flex gap-3 text-white'>
