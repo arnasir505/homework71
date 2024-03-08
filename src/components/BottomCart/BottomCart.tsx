@@ -1,11 +1,13 @@
 import React from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   selectCartDishesCount,
   selectCartTotalPrice,
 } from '../../store/cartSlice/cartSlice';
+import { openModal } from '../../store/checkoutSlice/checkoutSlice';
 
 const BottomCart: React.FC = () => {
+  const dispatch = useAppDispatch();
   const count = useAppSelector(selectCartDishesCount);
   const total = useAppSelector(selectCartTotalPrice);
   return (
@@ -18,7 +20,12 @@ const BottomCart: React.FC = () => {
         <h3 className='m-0'>
           Order {count} for {total} KGS
         </h3>
-        <button className='btn btn-lg btn-outline-orange'>Checkout</button>
+        <button
+          className='btn btn-lg btn-outline-orange'
+          onClick={() => dispatch(openModal())}
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );

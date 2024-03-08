@@ -8,6 +8,7 @@ import {
 import { fetchDishes } from '../../store/dishesSlice/dishesThunks';
 import DishItem from '../../components/DishItem/DishItem';
 import BottomCart from '../../components/BottomCart/BottomCart';
+import ModalCheckout from '../../components/Modal/ModalCheckout';
 
 const Dishes: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +50,7 @@ const Dishes: React.FC = () => {
   }
   return (
     <div className='container py-5'>
+      <ModalCheckout />
       <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-2 position-relative'>
         {content}
       </div>
