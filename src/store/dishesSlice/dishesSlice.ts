@@ -40,6 +40,7 @@ const dishesSlice = createSlice({
       .addCase(fetchDishes.rejected, (state) => {
         state.loading = false;
         state.error = true;
+        state.items = [];
       });
     builder
       .addCase(deleteDish.pending, (state, action) => {
@@ -50,6 +51,7 @@ const dishesSlice = createSlice({
         state.deleteId = null;
       })
       .addCase(deleteDish.rejected, (state) => {
+        state.deleteId = null;
         state.error = true;
       });
   },

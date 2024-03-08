@@ -34,3 +34,14 @@ export const fetchOrders = createAsyncThunk('orders/fetch', async () => {
 
   return newOrders;
 });
+
+export const deleteOrder = createAsyncThunk(
+  'orders/delete',
+  async (id: string) => {
+    try {
+      await axiosApi.delete('/dodo/orders/' + id + '.json');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

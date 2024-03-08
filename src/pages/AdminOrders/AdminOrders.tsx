@@ -38,7 +38,7 @@ const AdminOrders: React.FC = () => {
 
   return (
     <div className='container pt-4'>
-      <h1>Orders</h1>
+      <h1 className='m-0'>Orders</h1>
       <div className='pt-4'>
         <div className='row'>
           <div className='col-lg-10 col-xl-8 col-xxl-7'>{content}</div>
