@@ -3,6 +3,7 @@ import { dishFormReducer } from '../store/dishFormSlice/dishFormSlice';
 import { dishesReducer } from '../store/dishesSlice/dishesSlice';
 import { cartReducer } from '../store/cartSlice/cartSlice';
 import { modalReducer } from '../store/modalSlice/modalSlice';
+import { ordersReducer } from '../store/ordersSlice/ordersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     dishes: dishesReducer,
     cart: cartReducer,
     modal: modalReducer,
+    orders: ordersReducer,
   },
 });
 
