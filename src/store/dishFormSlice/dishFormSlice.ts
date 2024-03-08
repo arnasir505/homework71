@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { ApiDish, DishForm } from '../../types';
-import { addDish, fetchDishForm } from './dishFormThunks';
+import { addDish, fetchDishForm, updateDish } from './dishFormThunks';
 
 interface DishFormState {
   data: DishForm;
@@ -66,6 +66,18 @@ const dishFormSlice = createSlice({
         }
       )
       .addCase(fetchDishForm.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
+    builder
+      .addCase(updateDish.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateDish.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateDish.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });

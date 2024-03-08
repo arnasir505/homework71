@@ -11,3 +11,14 @@ export const fetchDishes = createAsyncThunk('dishes/fetch', async () => {
   }
   return dishes;
 });
+
+export const deleteDish = createAsyncThunk(
+  'dishes/deleteDish',
+  async (id: string) => {
+    try {
+      await axiosApi.delete('/dodo/dishes/' + id + '.json');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

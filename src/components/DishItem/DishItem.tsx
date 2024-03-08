@@ -1,8 +1,22 @@
 import React from 'react';
 import { Dish } from '../../types';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { deleteDish, fetchDishes } from '../../store/dishesSlice/dishesThunks';
+import { selectDishesDeleteId } from '../../store/dishesSlice/dishesSlice';
 
 const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
+  const dispatch = useAppDispatch();
+  const deleteId = useAppSelector(selectDishesDeleteId);
+  const disabled = deleteId === id;
+  const handleDelete = async (id: string) => {
+    const adminConfirmed = confirm('Delete this dish from list?');
+    if (adminConfirmed) {
+      await dispatch(deleteDish(id));
+      await dispatch(fetchDishes());
+    }
+  };
+
   return (
     <div className='card mb-3'>
       <div className='card-body'>
@@ -19,7 +33,25 @@ const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
             >
               Edit
             </Link>
-            <button className='btn btn-outline-danger'>Delete</button>
+            <button
+              className='btn btn-outline-danger'
+              disabled={disabled}
+              onClick={() => handleDelete(id)}
+            >
+              {disabled ? (
+                <>
+                  <span
+                    className='spinner-border spinner-border-sm'
+                    aria-hidden='true'
+                  ></span>
+                  <span className='visually-hidden' role='status'>
+                    Loading...
+                  </span>
+                </>
+              ) : (
+                'Delete'
+              )}
+            </button>
           </div>
         </div>
       </div>
