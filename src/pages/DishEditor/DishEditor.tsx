@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   clearForm,
@@ -8,10 +8,15 @@ import {
   updatePrice,
   updateTitle,
 } from '../../store/dishFormSlice/dishFormSlice';
-import { addDish } from '../../store/dishFormSlice/dishFormThunks';
-import { useNavigate } from 'react-router-dom';
+import {
+  addDish,
+  fetchDishForm,
+  updateDish,
+} from '../../store/dishFormSlice/dishFormThunks';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const DishEditor: React.FC = () => {
+  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const dishForm = useAppSelector(selectDishForm);
@@ -19,16 +24,36 @@ const DishEditor: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(addDish(dishForm));
+    if (params.id) {
+      await dispatch(updateDish(params.id));
+    } else {
+      await dispatch(addDish(dishForm));
+    }
     dispatch(clearForm());
     navigate('/admin/dishes');
   };
+
+  const getDishForm = useCallback(async () => {
+    try {
+      if (params.id) {
+        await dispatch(fetchDishForm(params.id)).unwrap();
+      } else {
+        dispatch(clearForm());
+      }
+    } catch (error) {
+      navigate('/404', { replace: true });
+    }
+  }, [params.id, dispatch, navigate]);
+
+  useEffect(() => {
+    void getDishForm();
+  }, [getDishForm]);
 
   return (
     <div className='container'>
       <div className='row'>
         <div className='col-lg-6 pt-4'>
-          <h1 className='mb-4'>Add new dish</h1>
+          <h1 className='mb-4'>{params.id ? 'Edit dish' : 'Add new dish'}</h1>
           <form onSubmit={handleSubmit}>
             <div className='mb-3'>
               <label htmlFor='title' className='form-label'>
@@ -78,6 +103,14 @@ const DishEditor: React.FC = () => {
                 onChange={(e) => dispatch(updateImage(e.target.value))}
               />
             </div>
+            <div className='mb-4'>
+              <p>Image preview:</p>
+              <img
+                src={dishForm.image || 'https://fakeimg.pl/120x120?font=bebas'}
+                alt='preview'
+                className='dish-image'
+              />
+            </div>
             <button
               className='btn btn-outline-dark'
               type='submit'
@@ -92,10 +125,10 @@ const DishEditor: React.FC = () => {
                   <span className='visually-hidden' role='status'>
                     Loading...
                   </span>
-                  Add
+                  Save
                 </>
               ) : (
-                'Add'
+                'Save'
               )}
             </button>
           </form>

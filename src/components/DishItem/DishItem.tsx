@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dish } from '../../types';
+import { Link } from 'react-router-dom';
 
 const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
   return (
@@ -12,7 +13,12 @@ const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
           </div>
           <div>
             <span className='fw-bold'>{price} KGS</span>
-            <button className='btn btn-outline-dark ms-4 me-2'>Edit</button>
+            <Link
+              to={`/admin/dishes/edit/${id}`}
+              className='btn btn-outline-dark ms-4 me-2'
+            >
+              Edit
+            </Link>
             <button className='btn btn-outline-danger'>Delete</button>
           </div>
         </div>

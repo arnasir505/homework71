@@ -15,6 +15,7 @@ const App = () => {
         <Route path='/admin/dishes' element={<AdminDishes />} />
         <Route path='/admin/orders' element={<AdminOrders />} />
         <Route path='/admin/new-dish' element={<DishEditor />} />
+        <Route path='/admin/dishes/edit/:id' element={<DishEditor />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
