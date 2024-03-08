@@ -29,8 +29,12 @@ body {
   transition: all 0.1s;
 }
 
-.bottom-cart {
+.top-border {
   border-top: 2px solid #ff6900;
+}
+
+.bottom-border {
+  border-bottom: 1px solid #ffb37d;
 }
 
 .btn-outline-orange {
@@ -43,4 +47,8 @@ body {
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #ff6900;
   --bs-btn-active-border-color: #ff6900;
+}
+
+.checkout-total {
+  padding-right: 57px;
 }

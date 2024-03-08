@@ -9,7 +9,7 @@ const DishItem: React.FC<Dish> = ({ id, title, price, image }) => {
     <div className='col'>
       <div
         className='card mb-3 cursor-pointer dishCard'
-        onClick={() => dispatch(addToCart({id, price}))}
+        onClick={() => dispatch(addToCart({ id, title, price, image }))}
       >
         <div className='card-body'>
           <div className='d-flex flex-column justify-content-between align-items-center'>

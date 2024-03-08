@@ -1,6 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Dish } from '../../types';
-import { fetchCheckoutDishes } from './checkoutThunks';
 import { RootState } from '../../app/store';
 
 interface CheckoutState {
@@ -27,24 +26,6 @@ const checkoutSlice = createSlice({
     closeModal: (state) => {
       state.show = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCheckoutDishes.pending, (state) => {
-        state.loading = true;
-        state.error = false;
-      })
-      .addCase(
-        fetchCheckoutDishes.fulfilled,
-        (state, action: PayloadAction<Dish[]>) => {
-          state.loading = false;
-          state.dishes = action.payload;
-        }
-      )
-      .addCase(fetchCheckoutDishes.rejected, (state) => {
-        state.loading = false;
-        state.error = true;
-      });
   },
 });
 

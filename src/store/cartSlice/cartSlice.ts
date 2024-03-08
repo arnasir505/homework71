@@ -1,9 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CartDish } from '../../types';
 import { RootState } from '../../app/store';
+import { Dish } from '../../types';
+
+interface CartDish {
+  dish: Dish;
+  count: number;
+}
 
 interface CartState {
-  data: CartDish;
+  items: CartDish[];
   dishesCount: number;
   totalPrice: number;
   loading: boolean;
@@ -11,7 +16,7 @@ interface CartState {
 }
 
 const initialState: CartState = {
-  data: {},
+  items: [],
   dishesCount: 0,
   totalPrice: 0,
   loading: false,
@@ -22,26 +27,33 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (
-      state,
-      { payload: dish }: PayloadAction<{ id: string; price: number }>
-    ) => {
-      if (dish.id in state.data) {
-        state.data[dish.id]++;
+    addToCart: (state, { payload: dish }: PayloadAction<Dish>) => {
+      const foundIndex = state.items.findIndex(
+        (item) => item.dish.id === dish.id
+      );
+
+      if (foundIndex !== -1) {
+        state.items[foundIndex].count++;
       } else {
-        state.data[dish.id] = 1;
+        state.items.push({
+          dish: dish,
+          count: 1,
+        });
       }
-      state.dishesCount = Object.keys(state.data).reduce((acc, id) => {
-        return (acc += state.data[id]);
+
+      state.dishesCount = state.items.reduce((acc, dish) => {
+        return (acc += dish.count);
       }, 0);
-      state.totalPrice += dish.price;
+      state.totalPrice = state.items.reduce((acc, item) => {
+        return (acc += item.dish.price * item.count);
+      }, 0);
     },
   },
 });
 
 export const cartReducer = cartSlice.reducer;
 export const { addToCart } = cartSlice.actions;
-export const selectCart = (state: RootState) => state.cart.data;
+export const selectCart = (state: RootState) => state.cart.items;
 export const selectCartDishesCount = (state: RootState) =>
   state.cart.dishesCount;
 export const selectCartTotalPrice = (state: RootState) => state.cart.totalPrice;

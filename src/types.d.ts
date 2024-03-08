@@ -17,7 +17,3 @@ export interface Dish extends ApiDish {
 export interface ApiDishes {
   [id: string]: ApiDish;
 }
-
-export interface CartDish {
-  [id: string]: number;
-}

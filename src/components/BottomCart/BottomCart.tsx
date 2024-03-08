@@ -12,12 +12,12 @@ const BottomCart: React.FC = () => {
   const total = useAppSelector(selectCartTotalPrice);
   return (
     <div
-      className={`sticky-bottom py-4 bg-white bottom-cart ${
+      className={`sticky-bottom py-4 bg-white top-border ${
         count > 0 ? '' : 'd-none'
       }`}
     >
-      <div className='d-flex justify-content-between align-items-center'>
-        <h3 className='m-0'>
+      <div className='d-flex flex-column flex-md-row justify-content-between align-items-center'>
+        <h3 className='mb-3 mb-md-0'>
           Order {count} for {total} KGS
         </h3>
         <button
