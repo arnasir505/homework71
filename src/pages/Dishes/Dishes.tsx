@@ -9,11 +9,14 @@ import { fetchDishes } from '../../store/dishesSlice/dishesThunks';
 import DishItem from '../../components/DishItem/DishItem';
 import BottomCart from '../../components/BottomCart/BottomCart';
 import ModalCheckout from '../../components/Modal/ModalCheckout';
+import { selectCartDishesCount } from '../../store/cartSlice/cartSlice';
+import { closeModal } from '../../store/modalSlice/modalSlice';
 
 const Dishes: React.FC = () => {
   const dispatch = useAppDispatch();
   const dishes = useAppSelector(selectDishes);
   const isLoading = useAppSelector(selectDishesLoading);
+  const cartDishesCount = useAppSelector(selectCartDishesCount);
 
   const getDishes = useCallback(async () => {
     void dispatch(fetchDishes());
@@ -22,6 +25,12 @@ const Dishes: React.FC = () => {
   useEffect(() => {
     getDishes();
   }, [getDishes]);
+
+  useEffect(() => {
+    if (cartDishesCount === 0) {
+      dispatch(closeModal());
+    }
+  }, [cartDishesCount]);
 
   let content = (
     <div className='position-absolute top-0 start-50 translate-middle'>
@@ -48,6 +57,7 @@ const Dishes: React.FC = () => {
       <h2 className='text-center pt-5 text-secondary'>Dishes list is empty.</h2>
     );
   }
+
   return (
     <div className='container py-5'>
       <ModalCheckout />

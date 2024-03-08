@@ -28,6 +28,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, { payload: dish }: PayloadAction<Dish>) => {
+      
       const foundIndex = state.items.findIndex(
         (item) => item.dish.id === dish.id
       );
@@ -48,11 +49,24 @@ const cartSlice = createSlice({
         return (acc += item.dish.price * item.count);
       }, 0);
     },
+    deleteFromCart: (state, { payload: id }: PayloadAction<string>) => {
+      const filteredCartItems = state.items.filter(
+        (item) => item.dish.id !== id
+      );
+      state.items = filteredCartItems;
+
+      state.dishesCount = state.items.reduce((acc, dish) => {
+        return (acc += dish.count);
+      }, 0);
+      state.totalPrice = state.items.reduce((acc, item) => {
+        return (acc += item.dish.price * item.count);
+      }, 0);
+    },
   },
 });
 
 export const cartReducer = cartSlice.reducer;
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, deleteFromCart } = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart.items;
 export const selectCartDishesCount = (state: RootState) =>
   state.cart.dishesCount;
